@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Burgie</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+
+        body {
+            margin: 0;
+            background-color: white;
+            color: #ff5900;
+            font-family: "Comic Neue", cursive;
+            text-align: center;
+        }
+
+        #brandArea {
+            padding-top: 20px;
+        }
+
+        #logo {
+            display: block;
+            width: 340px;
+            max-width: 80%;
+            margin: 0 auto;
+            image-rendering: pixelated;
+        }
+
+        #slogan {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ff5900;
+    margin: 10px 0 0 0;
+
+        }
+
+        main {
+            max-width: 800px;
+            margin: auto;
+            padding: 10px 20px 60px 20px;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 18px;
+        }
+
+        .step {
+            display: none;
+        }
+
+        .step.active {
+            display: block;
+            animation: stepFade 0.4s;
+        }
+
+        @keyframes stepFade {
+
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+        }
+
+        .choices {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        button {
+            font-family: "Comic Neue", cursive;
+            font-size: 18px;
+            color:#ff5900;;
+            background-color: white;
+
+            border: 2px solid #fbba2f;
+            border-radius: 8px;
+
+            padding: 10px 18px;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            background-color: #fff4e8;
+        }
+
+        button.selected {
+            background-color: #ff5900;
+            color: white;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        #burgerArea {
+            position: relative;
+            width: 280px;
+            height: 330px;
+            margin: 10px auto 15px auto;
+        }
+
+        .burgerImage {
+            position: absolute;
+            width: 280px;
+            left: 0;
+            image-rendering: pixelated;
+            pointer-events: none;
+        }
+
+        .newIngredient {
+            animation: ingredientDrop 0.35s;
+        }
+
+        @keyframes ingredientDrop {
+
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+        }
+
+        .burgerPop {
+            animation: burgerPop 0.5s;
+        }
+
+        @keyframes burgerPop {
+
+            0% {
+                transform: scale(0.9);
+            }
+
+            60% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+
+        }
+
+        #realBurger {
+            width: 350px;
+            max-width: 90%;
+            margin-top: 10px;
+            border: 3px solid #ff5900;
+            border-radius: 10px;
+        }
+
+        #restart {
+            margin-top: 25px;
+        }
+
+        @media (max-width: 500px) {
+
+            h1 {
+                font-size: 23px;
+            }
+
+            button {
+                font-size: 16px;
+            }
+
+            #logo {
+                width: 280px;
+            }
+
+            #slogan {
+                width: 220px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div id="brandArea">
+
+    <img
+        src="Burgie_Logo.png"
+        id="logo"
+        alt="Burgie logo"
+    >
+
+    <p id="slogan">world scary. burger safe.</p>
+
+</div>
+
+<main>
+
+    <div id="burgerArea"></div>
+
+    <section class="step active" id="step1">
+
+        <h1>1. Choose Your Bun</h1>
+
+        <div class="choices">
+
+            <button onclick="chooseBun('sesame', this)">
+                Sesame
+            </button>
+
+            <button onclick="chooseBun('gf', this)">
+                Gluten Free
+            </button>
+
+        </div>
+
+        <div class="navigation">
+
+            <button onclick="nextFromBun()">
+                Next →
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <section class="step" id="step2">
+
+        <h1>2. Choose Your Patty</h1>
+
+        <div class="choices">
+
+            <button onclick="choosePatty('beef', this)">
+                Beef
+            </button>
+
+            <button onclick="choosePatty('veggie', this)">
+                Veggie
+            </button>
+
+            <button onclick="choosePatty('salmon', this)">
+                Salmon
+            </button>
+
+        </div>
+
+        <div class="navigation">
+
+            <button onclick="showStep(1)">
+                ← Back
+            </button>
+
+            <button onclick="nextFromPatty()">
+                Next →
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <section class="step" id="step3">
+
+        <h1>3. Add Your Toppings</h1>
+
+        <div class="choices">
+
+            <button onclick="toggleTopping('cheese', this)">
+                Cheese
+            </button>
+
+            <button onclick="toggleTopping('lettuce', this)">
+                Lettuce
+            </button>
+
+            <button onclick="toggleTopping('tomato', this)">
+                Tomato
+            </button>
+
+            <button onclick="toggleTopping('onion', this)">
+                Onion
+            </button>
+
+            <button onclick="toggleTopping('pickles', this)">
+                Pickles
+            </button>
+
+        </div>
+
+        <div class="navigation">
+
+            <button onclick="showStep(2)">
+                ← Back
+            </button>
+
+            <button onclick="showStep(4)">
+                Next →
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <section class="step" id="step4">
+
+        <h1>4. Pick a Condiment</h1>
+
+        <div class="choices">
+
+            <button onclick="chooseCondiment('ketchup', this)">
+                Ketchup
+            </button>
+
+            <button onclick="chooseCondiment('mustard', this)">
+                Mustard
+            </button>
+
+            <button onclick="chooseCondiment('mayo', this)">
+                Mayo
+            </button>
+
+        </div>
+
+        <div class="navigation">
+
+            <button onclick="showStep(3)">
+                ← Back
+            </button>
+
+            <button onclick="finishBurger()">
+                Finish Burger →
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <section class="step" id="step5">
+
+        <h1>BURGER COMPLETE!</h1>
+
+        <p>burgie = happy</p>
+
+        <img
+            id="realBurger"
+            src=""
+            alt="burgie happy"
+        >
+
+        <br>
+
+        <button id="restart" onclick="restartBurger()">
+            Restart
+        </button>
+
+    </section>
+
+
+</main>
+
+
+<script>
+
+let burger = {
+    bun: null,
+    patty: null,
+    toppings: [],
+    condiment: null
+};
+
+
+const ingredientInfo = [
+
+    {
+        name: "cheese",
+        image: "Cheese.png",
+        top: 10,
+        height: 2,
+        overlap: 0
+    },
+
+    {
+        name: "lettuce",
+        image: "Lettuce.png",
+        top: 15,
+        height: 3,
+        overlap: 1
+    },
+
+    {
+        name: "tomato",
+        image: "Tomato.png",
+        top: 14,
+        height: 2,
+        overlap: 0
+    },
+
+    {
+        name: "onion",
+        image: "Onion.png",
+        top: 12,
+        height: 2,
+        overlap: 0
+    },
+
+    {
+        name: "pickles",
+        image: "Pickles.png",
+        top: 9,
+        height: 2,
+        overlap: 1
+    }
+
+];
+
+
+const scale = 10;
+
+
+function showStep(number) {
+
+    let steps = document.querySelectorAll(".step");
+
+    for (let step of steps) {
+        step.classList.remove("active");
+    }
+
+    document.getElementById("step" + number).classList.add("active");
+
+}
+
+
+function chooseBun(type, button) {
+
+    burger.bun = type;
+
+    selectButton(button);
+
+    drawBurger();
+
+}
+
+
+function nextFromBun() {
+
+    if (burger.bun === null) {
+
+        alert("Choose a bun first!");
+
+    } else {
+
+        showStep(2);
+
+    }
+
+}
+
+
+function choosePatty(type, button) {
+
+    burger.patty = type;
+
+    selectButton(button);
+
+    drawBurger();
+
+}
+
+
+function nextFromPatty() {
+
+    if (burger.patty === null) {
+
+        alert("Choose a patty first!");
+
+    } else {
+
+        showStep(3);
+
+    }
+
+}
+
+
+function toggleTopping(name, button) {
+
+    let toppingPosition = burger.toppings.indexOf(name);
+
+
+    if (toppingPosition === -1) {
+
+        burger.toppings.push(name);
+
+        button.classList.add("selected");
+
+    } else {
+
+        burger.toppings.splice(toppingPosition, 1);
+
+        button.classList.remove("selected");
+
+    }
+
+
+    drawBurger();
+
+}
+
+
+function chooseCondiment(type, button) {
+
+    burger.condiment = type;
+
+    selectButton(button);
+
+    drawBurger();
+
+}
+
+
+function selectButton(button) {
+
+    let buttons = button.parentElement.querySelectorAll("button");
+
+    for (let otherButton of buttons) {
+
+        otherButton.classList.remove("selected");
+
+    }
+
+    button.classList.add("selected");
+
+}
+
+
+function createLayer(imageName, imageTop, desiredTop, className) {
+
+    let image = document.createElement("img");
+
+    image.src = imageName;
+
+    image.className = "burgerImage " + (className || "");
+
+    image.style.top =
+        (
+            desiredTop -
+            imageTop * scale
+        )
+        + "px";
+
+    return image;
+
+}
+
+
+function drawBurger() {
+
+    let area = document.getElementById("burgerArea");
+
+    area.innerHTML = "";
+
+
+    let plate = createLayer(
+        "Plate.png",
+        22,
+        220,
+        ""
+    );
+
+    plate.style.zIndex = 1;
+
+    area.appendChild(plate);
+
+
+    let currentBottom = 260;
+
+
+    if (burger.bun !== null) {
+
+        let bottomImage;
+
+
+        if (burger.bun === "sesame") {
+
+            bottomImage = "Sesame_Bun_Bottom.png";
+
+        } else {
+
+            bottomImage = "GF_Bun_Bottom.png";
+
+        }
+
+
+        let bottomHeight = 5 * scale;
+
+        let bottomTop = currentBottom - bottomHeight;
+
+
+        let bun = createLayer(
+            bottomImage,
+            21,
+            bottomTop,
+            "newIngredient"
+        );
+
+
+        bun.style.zIndex = 2;
+
+        area.appendChild(bun);
+
+        currentBottom = bottomTop;
+
+    }
+
+
+    if (burger.patty !== null) {
+
+        let pattyImage;
+
+
+        if (burger.patty === "beef") {
+
+            pattyImage = "Beef_Patty.png";
+
+        }
+
+
+        if (burger.patty === "veggie") {
+
+            pattyImage = "Veggie_Patty.png";
+
+        }
+
+
+        if (burger.patty === "salmon") {
+
+            pattyImage = "Salmon_Patty.png";
+
+        }
+
+
+        let pattyHeight = 4 * scale;
+
+        let pattyTop = currentBottom - pattyHeight;
+
+
+        let patty = createLayer(
+            pattyImage,
+            17,
+            pattyTop,
+            "newIngredient"
+        );
+
+
+        patty.style.zIndex = 3;
+
+        area.appendChild(patty);
+
+        currentBottom = pattyTop;
+
+    }
+
+
+    let zIndex = 4;
+
+
+    for (let toppingName of burger.toppings) {
+
+        let topping = ingredientInfo.find(
+
+            function (ingredient) {
+
+                return ingredient.name === toppingName;
+
+            }
+
+        );
+
+
+        if (topping) {
+
+            let overlap = topping.overlap * scale;
+
+            let ingredientHeight = topping.height * scale;
+
+
+            let ingredientTop =
+                currentBottom -
+                ingredientHeight +
+                overlap;
+
+
+            let image = createLayer(
+                topping.image,
+                topping.top,
+                ingredientTop,
+                "newIngredient"
+            );
+
+
+            image.style.zIndex = zIndex;
+
+area.appendChild(image);
+
+if (topping.name === "lettuce") {
+    currentBottom = ingredientTop + scale;
+} else {
+    currentBottom = ingredientTop;
+}
+
+zIndex++;
+
+        }
+
+    }
+
+
+    if (burger.condiment !== null) {
+
+        let condimentImage;
+
+
+        if (burger.condiment === "ketchup") {
+
+            condimentImage = "Ketchup.png";
+
+        }
+
+
+        if (burger.condiment === "mustard") {
+
+            condimentImage = "Mustard.png";
+
+        }
+
+
+        if (burger.condiment === "mayo") {
+
+            condimentImage = "Mayo.png";
+
+        }
+
+
+        let condimentHeight = 2 * scale;
+
+        let condimentOverlap = 1 * scale;
+
+
+        let condimentTop =
+            currentBottom -
+            condimentHeight +
+            condimentOverlap;
+
+
+        let condiment = createLayer(
+            condimentImage,
+            9,
+            condimentTop,
+            "newIngredient"
+        );
+
+
+        condiment.style.zIndex = zIndex;
+
+        area.appendChild(condiment);
+
+        currentBottom = condimentTop;
+
+    }
+
+
+    area.dataset.burgerTop = currentBottom;
+
+}
+
+
+function finishBurger() {
+
+    if (burger.condiment === null) {
+
+        alert("Pick a condiment first!");
+
+        return;
+
+    }
+
+
+    drawBurger();
+
+
+    let area = document.getElementById("burgerArea");
+
+    let currentTop = Number(area.dataset.burgerTop);
+
+
+    let topImage;
+
+
+    if (burger.bun === "sesame") {
+
+        topImage = "Sesame_Bun_Top.png";
+
+    } else {
+
+        topImage = "GF_Bun_Top.png";
+
+    }
+
+
+    let topHeight = 7 * scale;
+
+    let topBunTop = currentTop - topHeight;
+
+
+    let topBun = createLayer(
+        topImage,
+        2,
+        topBunTop,
+        "newIngredient"
+    );
+
+
+    topBun.style.zIndex = 100;
+
+    area.appendChild(topBun);
+
+
+    area.classList.remove("burgerPop");
+
+    void area.offsetWidth;
+
+    area.classList.add("burgerPop");
+
+
+    let realBurger = document.getElementById("realBurger");
+
+
+    if (burger.patty === "veggie") {
+
+        realBurger.src =
+            "https://biancazapatka.com/wp-content/uploads/2020/05/vegan-bean-burger-best-recipe.jpg";
+
+    }
+
+
+    if (burger.patty === "salmon") {
+
+        realBurger.src =
+            "https://www.completelydelicious.com/wp-content/uploads/2026/05/salmon-burgers-8.jpg";
+
+    }
+
+
+    if (burger.patty === "beef") {
+
+        realBurger.src =
+            "https://staticcookist.akamaized.net/wp-content/uploads/sites/22/2020/03/iStock-1152247466.jpg";
+
+    }
+
+
+    showStep(5);
+
+}
+
+
+function restartBurger() {
+
+    burger = {
+        bun: null,
+        patty: null,
+        toppings: [],
+        condiment: null
+    };
+
+
+    let buttons = document.querySelectorAll("button");
+
+
+    for (let button of buttons) {
+
+        button.classList.remove("selected");
+
+    }
+
+
+    let area = document.getElementById("burgerArea");
+
+    area.innerHTML = "";
+
+    area.classList.remove("burgerPop");
+
+
+    showStep(1);
+
+}
+
+</script>
+
+
+</body>
+
+</html>
